@@ -28,6 +28,7 @@ class Generator:
     def get_random_noise(self, scale, shape, octaves, persistence, lacunarity, seed=False):
         scale = shape[1] * (scale / 100)
         persistence /= 100
+        lacunarity /= 10
         world = np.zeros(shape)
         if seed == False or seed <= 0: seed = np.random.randint(1,100)
         for i in range(shape[0]):
@@ -39,7 +40,7 @@ class Generator:
                                             base=seed)
         return ((world + 1) * 128).astype(np.uint8)
 
-    def assign_colors(self, layers, noise_array, sea_level=120):
+    def assign_colors(self, layers, noise_array, sea_level):
         altitudes = (layers[:, 2] + sea_level).astype(int)
         colors = np.array([np.array([*color], dtype=np.uint8) for color in layers[:, 1]])
         color_indices = np.digitize(noise_array, altitudes)
@@ -115,7 +116,7 @@ class App:
             self.stg["scale"][0], (self.stg["height"][0], self.stg["width"][0]), self.stg["octaves"][0], self.stg["persistence"][0], self.stg["lacunarity"][0],
             seed=self.stg["seed"][0]
         )
-        color_array = self.gen.assign_colors(layers, noise_array, 120)
+        color_array = self.gen.assign_colors(layers, noise_array, self.stg["sea_level"][0])
 
         self.image = self.gen.array_to_image(color_array)
         self.tk_image = ImageTk.PhotoImage(self.image)
@@ -156,15 +157,15 @@ class App:
 
 # (default, min, max)
 stg = {
-    "height": [500, 0, 0],  # resolution
-    "width": [500, 0, 0], # resolution
+    "height": [0, 0, 0],  # resolution
+    "width": [0, 0, 0], # resolution
 
-    "seed" : [False, 0, 100],
-    "sea_level": [120, 100, 140], # altitude
+    "seed" : [0, 0, 100], # 0 is random
+    "sea_level": [120, 1, 200], # altitude
     "scale" : [45, 1, 100],
     "octaves" : [6, 1, 15],
     "persistence" : [55, 1, 100],
-    "lacunarity" : [2, 1, 10]
+    "lacunarity" : [20, 1, 100]
 }
 
 # name, color, altitude
