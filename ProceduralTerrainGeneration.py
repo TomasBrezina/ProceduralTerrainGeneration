@@ -6,6 +6,8 @@ import noise
 import numpy as np
 import time
 
+
+
 # for measuring time
 def timing(f):
     def wrap(*args, **kwargs):
@@ -47,7 +49,10 @@ class Generator:
         color_array = np.array([colors[ind] for ind in color_indices])
         return color_array
 
-    def array_to_image(self,color_world):
+    def noise_array_to_image(self,noise_world):
+        return fromarray(noise_world, mode="L")
+
+    def color_array_to_image(self,color_world):
         return fromarray(color_world, mode="RGB")
 
 class App:
@@ -118,7 +123,9 @@ class App:
         )
         color_array = self.gen.assign_colors(layers, noise_array, self.stg["sea_level"][0])
 
-        self.image = self.gen.array_to_image(color_array)
+        self.image = self.gen.color_array_to_image(color_array)
+        #self.image = self.gen.noise_array_to_image(noise_array)
+
         self.tk_image = ImageTk.PhotoImage(self.image)
         self.bg_label.config(image=self.tk_image)
 
