@@ -3,7 +3,7 @@
 
 ![preview](http://www.brez.cz/projects/procedural-terrain/terrain_preview.gif)
 
-You can adjust the parameters and view the differences.
+You can adjust the parameters and see the differences.
 
 |![scale](http://www.brez.cz/projects/procedural-terrain/terrain_scale.gif)|![persistence](http://www.brez.cz/projects/procedural-terrain/terrain_persistence.gif)|![octaves](http://www.brez.cz/projects/procedural-terrain/terrain_octaves.gif)|
 |--|--|--|
